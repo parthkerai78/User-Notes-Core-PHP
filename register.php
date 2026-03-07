@@ -15,6 +15,7 @@
         $stmt->execute([$name, $email, $password]);
 
         echo "Registeration Successfull";
+        header("Location: login.php");
     }
 ?>
 
