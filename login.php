@@ -1,32 +1,32 @@
 <?php
-    require_once "config/database.php";
+session_start();
+require_once "config/database.php";
 
-    $db = new Database();
-    $conn = $db->connect();
+$db = new Database();
+$conn = $db->connect();
 
-    if(isset($_POST['login'])){
-        
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+if(isset($_POST['login'])) {
 
-        $query = ("SELECT * FROM users WHERE email = ?");
-        $stmt = $conn->prepare($query);
-        $stmt->execute([$email]);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $query = "SELECT * FROM users WHERE email = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$email]);
 
-        if($user && password_verify($password, $user['password'])){
-            $_SESSION['user_id'] = $user['id'];
-            header ("Location: dashboard.php");
-        }
-        else{
-            echo "Invalid Credentials";
-        }
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['id'];
+        header("Location: dashboard.php");
+    } else {
+        echo "Invalid Credentials";
     }
+}
 ?>
 
 <form method="POST">
-    <input type="email" name="email" placeholder="Enter your Email" required><br>
-    <input type="password" name="password" placeholder="Enter your Password" required><br>
+    <input type="email" name="email" placeholder="Enter Email" required><br>
+    <input type="password" name="password" placeholder="Enter Password" required><br>
     <button name="login">Login</button>
 </form>
