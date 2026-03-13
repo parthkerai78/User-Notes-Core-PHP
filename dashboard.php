@@ -37,6 +37,8 @@ $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach($notes as $note) {
     echo "<h3>".$note['title']."</h3>";
     echo "<p>".$note['description']."</p>";
+
+    echo "<a href='edit.php?id=".$note['id']."'>Edit</a> ";
     echo "<a href='delete.php?id=".$note['id']."'>Delete</a>";
 }
 ?>
